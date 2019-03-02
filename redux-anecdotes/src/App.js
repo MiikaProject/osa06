@@ -7,12 +7,13 @@ import Filter from './components/Filter'
 const App = ({store}) => {
   return (
     <div>
-      <Filter store={store} />
-      <Notification store={store}/>
-      <AnecdoteForm store={store}/>
-      <AnecdoteList store={store} />
+      <Notification/>
+      <Filter/>
+      <AnecdoteForm/>
+      <AnecdoteList />
     </div>
   )
 }
+
 
 export default App
