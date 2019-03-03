@@ -1,4 +1,4 @@
-const alkuviesti = 'Alkuviesti'
+const alkuviesti = ''
 
 
 const notificationReducer = (state = alkuviesti, action) => {
@@ -21,13 +21,19 @@ const notificationReducer = (state = alkuviesti, action) => {
 }
 
 
-export const setNotification = (content) => {
-    return (
-        {
-            type: 'SET',
-            content: content
-        }
-    )
+export const setNotification = (contentToShow,timeToShow) => {
+    return dispatch => {
+        dispatch({
+            type:'SET',
+            content:contentToShow
+        })
+
+        setTimeout(() => {
+            dispatch({
+                type:'CLEAR'
+            })
+        }, timeToShow*1000);
+    }
 
 }
 

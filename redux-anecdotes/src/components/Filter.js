@@ -3,8 +3,6 @@ import { setFilterValue } from '../reducers/filterReducer'
 import {connect} from 'react-redux'
 
 const Filter = (props) => {
-
-
     const handleChange = (event) => {
         props.dispatch(
             setFilterValue(event.target.value)

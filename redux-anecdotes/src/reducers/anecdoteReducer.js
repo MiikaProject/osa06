@@ -1,5 +1,5 @@
 import anecdoteService from '../services/anecdotes'
-
+/*
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -20,28 +20,17 @@ const asObject = (anecdote) => {
 }
 
 const initialState = anecdotesAtStart.map(asObject)
-
+*/
 const anecdoteReducer = (state = [], action) => {
   
-
   switch (action.type) {
-
+    
     case 'VOTE':
-      const id = action.data.id
-      const anecdotetoVote = state.find(anec => anec.id === id)
-      
-      const changedAnecdote = {
-        ...anecdotetoVote,
-        votes: anecdotetoVote.votes + 1
-      }
-
-      state = state.map(anec => anec.id !== id ? anec : changedAnecdote)
+      state = state.map(anec => anec.id !== action.data.id ? anec : action.data)
       arrangeAnecdotes(state)
       return state
 
       case 'CREATE' :
-      console.log(action.data);
-      
        const addAnecdote ={
          content : action.data.content,
          id:action.data.id,
@@ -59,15 +48,11 @@ const anecdoteReducer = (state = [], action) => {
     default:
       return state
   }
-
-
 }
 
 export const initializeAnecdotes = () => {
   return async dispatch => {
     const anecdotes = await anecdoteService.getAll()
-    
-    
     dispatch({
       type:'INIT_ANECDOTES',
       data: anecdotes
@@ -76,27 +61,31 @@ export const initializeAnecdotes = () => {
 }
 
 export const voteAnecdote = (id) => {
-  return {
-    type: 'VOTE',
-    data: { id }
+  return async dispatch => {
+    const votedAnecdote = await anecdoteService.getId(id)
+    const newAnecdote = {
+      content:votedAnecdote.content,
+      id:votedAnecdote.id,
+      votes:votedAnecdote.votes+1
+    }
+    const response = await anecdoteService.newVote(newAnecdote)
+    dispatch({
+      type:'VOTE',
+      data : response
+    })
   }
+
 }
 
 
-
 export const createAnecdote = (lisattava) => {
-
-  console.log(lisattava);
-  
-  return {
-    type: 'CREATE',
-    data:{
-      content:lisattava.content,
-      id:lisattava.id,
-      votes:lisattava.votes
-    }
+  return async dispatch => {
+    const newAnecdote = await anecdoteService.createNew(lisattava)
+    dispatch({
+      type:'CREATE',
+      data:newAnecdote
+    })
   }
-  
 }
 
 const arrangeAnecdotes = (state) => {
