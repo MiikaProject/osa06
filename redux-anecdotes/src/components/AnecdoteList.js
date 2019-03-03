@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 
 const AnecdoteList = (props) => {
     
+    
     const vote = (id, content) => {
         props.voteAnecdote(id)
         props.setNotification(`you voted '${content}'`)
@@ -34,7 +35,13 @@ const AnecdoteList = (props) => {
 }
 
 const anecdotesToShow = ({ anecdotes, filter }) => {
+    
+    
+    
+    
     const filteroidut = anecdotes.filter(anekdootti => {
+        
+        
         return (
             anekdootti.content.toLowerCase().includes(filter.toLowerCase())
         )
@@ -43,7 +50,7 @@ const anecdotesToShow = ({ anecdotes, filter }) => {
 }
 
 const mapStateToProps = (state) => {
-
+    
     return {
         anecdotesToShow: anecdotesToShow(state),
         filter: state.filter
